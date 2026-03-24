@@ -1,0 +1,10 @@
+{
+  "hardware": "CPU",
+  "imports": true,
+  "initialization": true,
+  "decoder_forward": true,
+  "attention_hook": true,
+  "synthetic_data": 4,
+  "model_load": "skipped",
+  "dataset_test": true
+}
