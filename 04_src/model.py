@@ -145,12 +145,51 @@ class QueryGenerator(nn.Module):
         return query
 
 
+class SpatialAttentionPooling(nn.Module):
+    """空间注意力池化 - 保留更多空间信息"""
+    
+    def __init__(self, hidden_dim: int = 256):
+        super().__init__()
+        self.attention_conv = nn.Sequential(
+            nn.Conv2d(hidden_dim, hidden_dim // 4, 1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(hidden_dim // 4, 1, 1),
+            nn.Sigmoid()
+        )
+    
+    def forward(self, x: torch.Tensor, spatial_size: Tuple[int, int]) -> torch.Tensor:
+        """
+        Args:
+            x: (batch, num_tokens, hidden)
+            spatial_size: (H, W) - tokens对应的空间尺寸
+        
+        Returns:
+            pooled: (batch, hidden)
+        """
+        batch, num_tokens, hidden = x.shape
+        H, W = spatial_size
+        
+        # Reshape到2D
+        x_2d = x.view(batch, H, W, hidden).permute(0, 3, 1, 2)  # (B, C, H, W)
+        
+        # 计算attention weights
+        attn = self.attention_conv(x_2d)  # (B, 1, H, W)
+        
+        # Weighted sum
+        pooled = (x_2d * attn).sum(dim=(2, 3))  # (B, C)
+        
+        return pooled
+
+
 class CAILADecoder(nn.Module):
     """轻量化解码头 - 从attention weights预测篡改定位"""
     
     def __init__(self, hidden_dim: int = 4096, output_size: Tuple[int, int] = (14, 14)):
         super().__init__()
         self.output_size = output_size
+        
+        # 空间注意力池化
+        self.spatial_pool = SpatialAttentionPooling(hidden_dim)
         
         # 多层感知机解码器
         self.decoder = nn.Sequential(
@@ -164,6 +203,9 @@ class CAILADecoder(nn.Module):
             nn.Dropout(0.1),
             nn.Linear(256, output_size[0] * output_size[1])
         )
+        
+        # 可学习的spatial query，用于per-pixel预测
+        self.spatial_query = nn.Parameter(torch.randn(1, hidden_dim))
     
     def forward(self, visual_features: torch.Tensor) -> torch.Tensor:
         """
@@ -175,11 +217,13 @@ class CAILADecoder(nn.Module):
         Returns:
             heatmaps: (batch, 1, H, W)
         """
-        # 先对token维度进行attention pooling
         batch, num_tokens, hidden = visual_features.shape
         
-        # 使用简单的attention pooling
-        pooled = visual_features.mean(dim=1)  # (batch, hidden)
+        # 计算spatial size
+        spatial_size = (int(num_tokens ** 0.5), int(num_tokens ** 0.5))
+        
+        # 使用空间注意力池化
+        pooled = self.spatial_pool(visual_features, spatial_size)  # (batch, hidden)
         
         # 通过MLP解码
         logits = self.decoder(pooled)  # (batch, H*W)

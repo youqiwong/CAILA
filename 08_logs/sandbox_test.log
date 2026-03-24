@@ -75,3 +75,42 @@ Passed: 4/6 tests
 2026-03-24 21:37:20,386 - INFO - 
 Passed: 5/6 tests
 2026-03-24 21:37:20,388 - INFO - Results saved to /Users/wangyouqi/Desktop/EvoScientist_Local_Research_Kit/projects/aigc_inpainting_detection/08_logs/sandbox_results.json
+2026-03-24 21:38:40,707 - INFO - ============================================================
+2026-03-24 21:38:40,707 - INFO - CAILA Sandbox Test Suite
+2026-03-24 21:38:40,707 - INFO - ============================================================
+2026-03-24 21:38:40,707 - INFO - === Hardware Check ===
+2026-03-24 21:38:40,707 - INFO - PyTorch version: 2.11.0
+2026-03-24 21:38:40,707 - INFO - CUDA available: False
+2026-03-24 21:38:40,707 - INFO - Running on CPU
+2026-03-24 21:38:40,707 - INFO - === Import Test ===
+2026-03-24 21:38:40,710 - INFO - CAILA module imported successfully
+2026-03-24 21:38:40,710 - INFO - === Model Initialization Test ===
+2026-03-24 21:38:40,737 - INFO - Model initialized with config: CAILAConfig(model_name='Qwen/Qwen2-VL-7B-Instruct', device='cpu', max_iterations=2, confidence_threshold=0.8, init_query='Identify the manipulated or inpainted regions in this image.', use_layers=None, attention_pool_size=2, decoder_hidden_dim=256, decoder_output_dim=1)
+2026-03-24 21:38:40,737 - INFO - All model components initialized
+2026-03-24 21:38:40,737 - INFO - Total parameters: 17,135,429
+2026-03-24 21:38:40,737 - INFO - Trainable parameters: 17,135,429
+2026-03-24 21:38:40,737 - INFO - === Decoder Forward Test ===
+2026-03-24 21:38:40,770 - INFO - Decoder output shape: torch.Size([1, 1, 14, 14])
+2026-03-24 21:38:40,770 - INFO - Decoder output range: [0.3017, 0.7058]
+2026-03-24 21:38:40,771 - INFO - === Attention Hook Test ===
+2026-03-24 21:38:40,771 - INFO - AttentionHook class initialized correctly
+2026-03-24 21:38:40,771 - INFO - === Generating 4 synthetic test samples ===
+2026-03-24 21:38:40,857 - INFO - Generated 4 synthetic samples in /Users/wangyouqi/Desktop/EvoScientist_Local_Research_Kit/projects/aigc_inpainting_detection/03_data/test_samples
+2026-03-24 21:38:40,857 - WARNING - Skipping model load test (no GPU)
+2026-03-24 21:38:40,857 - INFO - === Dataset Download Test ===
+2026-03-24 21:38:40,857 - INFO - HuggingFace Hub version: 1.7.2
+2026-03-24 21:38:40,858 - INFO - HF_ENDPOINT: default
+2026-03-24 21:38:40,858 - INFO - ============================================================
+2026-03-24 21:38:40,858 - INFO - Test Results Summary:
+2026-03-24 21:38:40,858 - INFO - ============================================================
+2026-03-24 21:38:40,858 - INFO - [SKIP] hardware: CPU
+2026-03-24 21:38:40,858 - INFO - [PASS] imports: True
+2026-03-24 21:38:40,858 - INFO - [PASS] initialization: True
+2026-03-24 21:38:40,858 - INFO - [PASS] decoder_forward: True
+2026-03-24 21:38:40,858 - INFO - [PASS] attention_hook: True
+2026-03-24 21:38:40,858 - INFO - [FAIL] synthetic_data: 4
+2026-03-24 21:38:40,858 - INFO - [SKIP] model_load: skipped
+2026-03-24 21:38:40,858 - INFO - [PASS] dataset_test: True
+2026-03-24 21:38:40,858 - INFO - 
+Passed: 5/6 tests
+2026-03-24 21:38:40,860 - INFO - Results saved to /Users/wangyouqi/Desktop/EvoScientist_Local_Research_Kit/projects/aigc_inpainting_detection/08_logs/sandbox_results.json
