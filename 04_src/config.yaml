@@ -1,0 +1,50 @@
+# CAILA配置文件
+
+# 模型配置
+model:
+  model_name: "Qwen/Qwen2-VL-7B-Instruct"
+  decoder_output_size: 14
+  max_iterations: 3
+  confidence_threshold: 0.85
+  init_query: "Identify the manipulated or inpainted regions in this image."
+  
+# 特征提取配置
+features:
+  use_layers: null  # null表示使用全部层
+  attention_pool_size: 2
+  decoder_hidden_dim: 256
+
+# 训练配置
+training:
+  epochs: 10
+  batch_size: 4
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+  gradient_accumulation_steps: 4
+  warmup_steps: 500
+  max_grad_norm: 1.0
+  
+  # 混合精度
+  use_amp: true
+  
+  # 分布式
+  world_size: 1  # 设置为实际GPU数量
+  
+# 损失函数配置
+loss:
+  bce_weight: 1.0
+  dice_weight: 0.5
+  iou_weight: 0.5
+
+# 数据配置
+data:
+  train_dir: "../03_data/train"
+  val_dir: "../03_data/val"
+  test_dir: "../03_data/test"
+  image_size: 448
+  
+# 日志配置
+logging:
+  output_dir: "../05_runs"
+  log_interval: 10
+ 
