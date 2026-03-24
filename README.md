@@ -97,5 +97,15 @@ print(f"Heatmap shape: {result['heatmap'].shape}")
 - [x] Phase 1: 深度文献解构与动机确立
 - [x] Phase 2: Agent/Self-Evolving定向假设生成
 - [x] Phase 3: 本地工程初始化与真实数据沙箱测试
-- [ ] Phase 4: 自我反思与代码进化循环
+- [x] Phase 4: 自我反思与代码进化循环
+- [x] Phase 5: 本地交付包与集群部署准备
+
+## 已知限制
+
+- 本地无GPU，完整MLLM模型需在GPU环境测试
+- 真实数据测试待HuggingFace数据集下载后进行
+
+## 项目主页
+
+本项目为本地研究项目，代码和文档托管于本地文件系统。
 - [ ] Phase 5: 本地交付包与集群部署准备
